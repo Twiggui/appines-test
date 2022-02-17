@@ -8,7 +8,8 @@ const asyncHandler = require("express-async-handler");
 // PUBLIC ROUTES
 
 router.post("/", createOrderValidator, asyncHandler(OrderController.createOne));
-router.get("/:productId", asyncHandler(OrderController.getOne));
+// router.get("/", asyncHandler(OrderController.get));
+router.get("/:orderId", asyncHandler(OrderController.getOne));
 
 // PRIVATE ROUTE (user must be logged)
 // VerifyJWT middleware

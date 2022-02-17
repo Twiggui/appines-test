@@ -14,9 +14,9 @@ export default class OrderServices {
     }
   };
 
-  static getOne = async (orderModel: any, idProduct: string) => {
+  static getOne = async (orderModel: any, idOrder: string) => {
     try {
-      const [result] = await orderModel.find({ _id: ObjectId(idProduct) });
+      const [result] = await orderModel.find({ _id: ObjectId(idOrder) });
 
       return result;
     } catch (error) {
