@@ -58,6 +58,9 @@ export default class OrderController {
       const sort: string[] = req.query.sort_by
         ? JSON.parse(req.query.sort_by)
         : null;
+      const field: string[] = req.query.field
+        ? JSON.parse(req.query.field)
+        : null;
       const pageNumber: number = parseInt(req.query.pageNumber);
       const numberPerPage: number = parseInt(req.query.numberPerPage);
 
@@ -66,8 +69,17 @@ export default class OrderController {
       if (sort) {
         for (const option of sort) {
           const sortKey: any = option.split(".")[0];
-          const sortOrder: any = option.split(".")[0] === "desc" ? -1 : 1;
+          const sortOrder: any = parseInt(option.split(".")[1]);
           sortOptions[sortKey] = sortOrder;
+        }
+      }
+      // Préparation de l'objet des options de sélection de clef dans la réponse
+      const selectFieldOptions: any = sort ? {} : null;
+      if (sort) {
+        for (const option of field) {
+          const fieldKey: any = option.split(".")[0];
+          const fieldSelect: any = parseInt(option.split(".")[1]);
+          selectFieldOptions[fieldKey] = fieldSelect;
         }
       }
 
@@ -78,6 +90,7 @@ export default class OrderController {
         includedProducts,
         minimalPrice,
         sortOptions,
+        selectFieldOptions,
         pageNumber,
         numberPerPage
       );

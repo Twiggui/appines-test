@@ -31,6 +31,7 @@ export default class OrderServices {
     includedProducts: string[],
     minimalPrice: number,
     sort: any,
+    selectField: any,
     pageNumber: number,
     numberPerPage: number
   ) => {
@@ -73,6 +74,10 @@ export default class OrderServices {
       const queryBuilder_sort = {
         $sort: sort,
       };
+      // Project
+      const queryBuilder_project = {
+        $project: selectField,
+      };
 
       // Initialisation des query builders. Count permettra de renvoyer le nombre de résultats trouvés sans tenir compte des paramètres de pagination
       // Une constante est dédiée à la requête renvoyant le nombre de résultats
@@ -95,10 +100,16 @@ export default class OrderServices {
       }
       if (sort) {
         queryBuilder.push(queryBuilder_sort);
-        // comme c'est un système de tri pas besoin de rajouter cette étape dans le comptage de résultat. Ne pas décommenter la ligne ci-dessous
+        // Cette étape du pipeline n'interfère pas avec le calcul du nombre de résultat, inutile de la pousser dans le pipeline ci-dessous
         // queryBuilderCounting.push(queryBuilder_sort);
       }
+      if (selectField) {
+        queryBuilder.push(queryBuilder_project);
+        // Cette étape du pipeline n'interfère pas avec le calcul du nombre de résultat, inutile de la pousser dans le pipeline ci-dessous
+        // queryBuilderCounting.push(queryBuilder_project);
+      }
 
+      // Les étapes ci-dessous seront réalisées dans tous les cas
       queryBuilderCount.push(queryBuilder_resultCount);
       if (pageNumber && numberPerPage) {
         for (let i = 0; i < queryBuilder_pagination.length; i++) {
@@ -107,11 +118,10 @@ export default class OrderServices {
       }
 
       // Lancement des deux requête Mongo
-      // Nota : les await sont lancés en parrallèle pour réduire le temps des requêtes
+      // Nota : les await sont lancés en parallèle pour réduire le temps des requêtes
 
       const req_poiResult = orderModel.aggregate(queryBuilder);
       const req_poiResultCountReq = orderModel.aggregate(queryBuilderCount);
-
       const orderResult = await req_poiResult;
       const orderResultCount = await req_poiResultCountReq;
 

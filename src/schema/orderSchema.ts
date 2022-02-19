@@ -10,4 +10,7 @@ const OrderSchema = new Schema({
   price: { type: Number, required: true },
 });
 
+OrderSchema.index({ date: 1 });
+OrderSchema.index({ date: -1 });
+
 export default OrderSchema;
