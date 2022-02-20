@@ -53,7 +53,9 @@ export default class OrderController {
       const date: Date = req.query.date ? new Date(req.query.date) : null;
       const startDate: Date = date ? new Date(date.setHours(0, 0, 0)) : null;
       const endDate: Date = date ? new Date(date.setHours(23, 59, 59)) : null;
-      const includedProducts: string[] = JSON.parse(req.query.includedProducts);
+      const includedProducts: string[] = req.query.includedProducts
+        ? JSON.parse(req.query.includedProducts)
+        : null;
       const minimalPrice: number = parseInt(req.query.minimalPrice);
       const sort: string[] = req.query.sort_by
         ? JSON.parse(req.query.sort_by)

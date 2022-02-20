@@ -1,0 +1,21 @@
+version: "3"
+services:
+  appines-api:
+    depends_on:
+      - appines-data-mongodb
+    restart: always
+    container_name: appines-api
+    build: .
+    ports:
+      - "5565:5565"
+    volumes:
+      - .app/:/app/src/
+  appines-data-mongodb:
+    container_name: appines-data-mongodb
+    image: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb:/data/db
+volumes:
+  mongodb:

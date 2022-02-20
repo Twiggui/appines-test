@@ -1,19 +1,14 @@
 import cors from "cors";
 import express from "express";
-import YAML from "yamljs";
 import { handleError } from "../../helper/error";
 import { mainServerRouter } from "../../routes/_mainRouter";
 
 var bodyParser = require("body-parser");
 
-const swaggerUi = require("swagger-ui-express");
-const swaggerDocument = YAML.load("./src/docs/swagger.yaml");
-
 const app = express();
 const port = 5565;
 
 export const createServer = async () => {
-  serverDocumentation();
   serverConfiguration();
   serverRouting();
   serverErrorHandeling();
@@ -29,9 +24,6 @@ export const startServer = async () => {
   });
 };
 
-const serverDocumentation = () => {
-  app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-};
 const serverConfiguration = () => {
   app.use(cors());
   app.use(function (err: any, req: any, res: any, next: any) {
