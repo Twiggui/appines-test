@@ -28,6 +28,9 @@ export default class ProductServices {
 
       return result;
     } catch (error) {
+      if (error.kind === "ObjectId") {
+        throw new ErrorHandler(400, error.reason.message);
+      }
       throw new ErrorHandler(error.statusCode, error.message);
     }
   };
