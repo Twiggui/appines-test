@@ -9,7 +9,7 @@ services:
     ports:
       - "5565:5565"
     volumes:
-      - .app/:/app/src/
+      - ./src/:/app/src/
   appines-data-mongodb:
     container_name: appines-data-mongodb
     image: mongo
