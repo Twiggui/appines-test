@@ -1,11 +1,11 @@
-# LAUNCH PROJECT ON DOCKER
+## RUN PROJECT ON DOCKER
 
 - If this is the first time you open the project, follow the instructions in paragraph "CREATE DOCKER CONTAINER" below. This will create the Docker container on your device.
 - If you already have the docker container but you pulled the project, follow the instructions in paragraph "UPDATE LOCAL CONTAINER". This will replace the existing image and restart the container
 
-# CREATE DOCKER CONTAINER
+## CREATE DOCKER CONTAINER
 
-After cloning the project, you need to create the docker container.
+After cloning the project, you need to create the docker container.  
 Docker container is created from "Dockerfile" and "docker-compose.yml" files in the project folder
 
 - Install Docker if necessary : https://docs.docker.com/get-docker/
@@ -17,7 +17,7 @@ docker-compose up -d --build
 
 The container should run on 5565 port.
 
-# UPDATE LOCAL CONTAINER
+## UPDATE LOCAL CONTAINER
 
 After pulling the project, you need to update the docker container with following commands :
 
@@ -28,7 +28,7 @@ docker image prune -f
 
 This will rebuild images and restart the container.
 
-# CONNECT MONGO DATABSE IN THE CONTAINER
+## CONNECT MONGO DATABSE IN THE CONTAINER
 
 The mongo database is available through your IP adress when container is running
 
