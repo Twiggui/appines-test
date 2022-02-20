@@ -26,6 +26,7 @@ export default class OrderServices {
 
   static get = async (
     orderModel: any,
+    defaultOption: boolean,
     startDate: Date,
     endDate: Date,
     includedProducts: string[],
@@ -78,6 +79,10 @@ export default class OrderServices {
       const queryBuilder_project = {
         $project: selectField,
       };
+      // default search (= get ALL)
+      const queryBuilder_default = {
+        $match: {},
+      };
 
       // Initialisation des query builders. Count permettra de renvoyer le nombre de résultats trouvés sans tenir compte des paramètres de pagination
       // Une constante est dédiée à la requête renvoyant le nombre de résultats
@@ -108,14 +113,18 @@ export default class OrderServices {
         // Cette étape du pipeline n'interfère pas avec le calcul du nombre de résultat, inutile de la pousser dans le pipeline ci-dessous
         // queryBuilderCounting.push(queryBuilder_project);
       }
-
-      // Les étapes ci-dessous seront réalisées dans tous les cas
-      queryBuilderCount.push(queryBuilder_resultCount);
+      if (defaultOption) {
+        queryBuilder.push(queryBuilder_default);
+        queryBuilderCount.push(queryBuilder_default);
+      }
       if (pageNumber && numberPerPage) {
         for (let i = 0; i < queryBuilder_pagination.length; i++) {
           queryBuilder.push(queryBuilder_pagination[i]);
         }
       }
+
+      // Les étapes ci-dessous seront réalisées dans tous les cas
+      queryBuilderCount.push(queryBuilder_resultCount);
 
       // Lancement des deux requête Mongo
       // Nota : les await sont lancés en parallèle pour réduire le temps des requêtes

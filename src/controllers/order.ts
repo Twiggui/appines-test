@@ -67,6 +67,13 @@ export default class OrderController {
       const pageNumber: number = parseInt(req.query.pageNumber);
       const numberPerPage: number = parseInt(req.query.numberPerPage);
 
+      // Default search (equal get All)
+      // If defaultOption = true, the pipeline only have one step match{} that return all results
+      let defaultOption: boolean = false;
+      if (Object.keys(req.query).length === 0) {
+        defaultOption = true;
+      }
+
       // Build pipeline step object - sort options
       const sortOptions: any = sort ? {} : null;
       if (sort) {
@@ -88,6 +95,7 @@ export default class OrderController {
 
       const order = await OrderServices.get(
         OrderModel,
+        defaultOption,
         startDate,
         endDate,
         includedProducts,
