@@ -1,6 +1,5 @@
 import { createServer } from "../src/services/utils/server";
 import { productTestInterface } from "./interfaces/product";
-
 const request = require("supertest");
 
 // Gabarit d'erreur généré par le middleware de gestion des erreurs
@@ -46,17 +45,6 @@ describe(`ROUTE PRODUCT`, () => {
       });
       it("the returned body is a product interface object", async () => {
         productTestInterface.hasOwnProperty(res.body);
-      });
-    });
-    describe("When bad request is sent", () => {
-      beforeAll(async () => {
-        res = await request(app).get(`/product/`);
-      });
-      it("returns status 500", async () => {
-        expect(res.status).toBe(500);
-      });
-      it("the returned body is an error object", async () => {
-        expect(res.body).toMatchObject(expectedError);
       });
     });
     describe("When product does not exist", () => {
