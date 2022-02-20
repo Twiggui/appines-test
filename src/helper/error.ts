@@ -1,4 +1,3 @@
-// Creation d'un type d'erreur qui peut être appellée avec un code status et un message
 export class ErrorHandler extends Error {
   statusCode: number;
 
@@ -15,6 +14,13 @@ export const handleError = async (err: any, req: any, res: any, next: any) => {
     const message = err.message;
     const statusCode = err.statusCode || 500;
 
+    if (process.env.NODE_ENV === "production" && statusCode === 500) {
+      return res.status(statusCode).json({
+        status: "error",
+        statusCode,
+        message: "The server encountered a problem",
+      });
+    }
     return res.status(statusCode).json({
       status: "error",
       statusCode,

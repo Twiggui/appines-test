@@ -50,6 +50,7 @@ export default class OrderController {
     const mongoConnection = await mongoConnect();
     const OrderModel = await mongoConnection.model("order", OrderSchema);
     try {
+      // retreive and format datas
       const date: Date = req.query.date ? new Date(req.query.date) : null;
       const startDate: Date = date ? new Date(date.setHours(0, 0, 0)) : null;
       const endDate: Date = date ? new Date(date.setHours(23, 59, 59)) : null;
@@ -66,7 +67,7 @@ export default class OrderController {
       const pageNumber: number = parseInt(req.query.pageNumber);
       const numberPerPage: number = parseInt(req.query.numberPerPage);
 
-      // Préparation de l'objet des options de tri
+      // Build pipeline step object - sort options
       const sortOptions: any = sort ? {} : null;
       if (sort) {
         for (const option of sort) {
@@ -75,7 +76,7 @@ export default class OrderController {
           sortOptions[sortKey] = sortOrder;
         }
       }
-      // Préparation de l'objet des options de sélection de clef dans la réponse
+      // Build pipeline step object - select field options
       const selectFieldOptions: any = sort ? {} : null;
       if (sort) {
         for (const option of field) {

@@ -22,7 +22,7 @@ router.put(
 router.delete("/:productId", asyncHandler(ProductController.deleteOne));
 
 // PRIVATE ROUTE (user must be logged)
-// VerifyJWT middleware
-// RoleVerification middleware
+// VerifyJWT middleware that return 401 if JWT isn't valid
+// RoleVerification middleware that return 403 if role catched in JWT isn't adequate
 
 export default router;

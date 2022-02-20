@@ -36,7 +36,7 @@ export default class OrderServices {
     numberPerPage: number
   ) => {
     try {
-      // pipeline stages
+      // PIPELINE STAGES
       // Prix plus grands
       const queryBuilder_greaterThanPrice = {
         $match: {
