@@ -32,6 +32,16 @@ export default class ProductServices {
     }
   };
 
+  static getAll = async (productModel: any) => {
+    try {
+      const result = await productModel.find();
+
+      return result;
+    } catch (error) {
+      throw new ErrorHandler(error.statusCode, error.message);
+    }
+  };
+
   static getOne = async (productModel: any, idProduct: string) => {
     try {
       const [result] = await productModel.find({ _id: ObjectId(idProduct) });

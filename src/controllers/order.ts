@@ -77,8 +77,8 @@ export default class OrderController {
         }
       }
       // Build pipeline step object - select field options
-      const selectFieldOptions: any = sort ? {} : null;
-      if (sort) {
+      const selectFieldOptions: any = field ? {} : null;
+      if (field) {
         for (const option of field) {
           const fieldKey: any = option.split(".")[0];
           const fieldSelect: any = parseInt(option.split(".")[1]);

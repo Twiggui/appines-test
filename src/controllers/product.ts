@@ -51,6 +51,23 @@ export default class ProductController {
     }
   };
 
+  static getAll = async (req: any, res: any, next: any) => {
+    const mongoConnection = await mongoConnect();
+    const ProductModel = await mongoConnection.model("products", ProductSchema);
+    try {
+      const product = await ProductServices.getAll(ProductModel);
+
+      if (!product) {
+        throw new ErrorHandler(404, "product not found");
+      }
+
+      res.status(200).send(product);
+    } catch (error) {
+      console.log(error);
+      return next(error);
+    }
+  };
+
   static getOne = async (req: any, res: any, next: any) => {
     const mongoConnection = await mongoConnect();
     const ProductModel = await mongoConnection.model("products", ProductSchema);

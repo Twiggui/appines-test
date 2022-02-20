@@ -13,6 +13,7 @@ router.post(
   createProductValidator,
   asyncHandler(ProductController.createOne)
 );
+router.get("/", asyncHandler(ProductController.getAll));
 router.get("/:productId", asyncHandler(ProductController.getOne));
 router.put(
   "/:productId",
